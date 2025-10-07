@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendee Management</title>
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <div class="container">
+        <h1>Attendees</h1>
+        <p class="description">Manage and view all attendees for your event.</p>
+
+        <div class="filters">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" id="searchInput" placeholder="Search attendees by name or email">
+            </div>
+            <div class="filter-group">
+                <select class="filter-select" id="typeFilter">
+                    <option value="">All Attendee Types</option>
+                    <option value="VIP">VIP</option>
+                    <option value="General">General</option>
+                    <option value="Speaker">Speaker</option>
+                </select>
+                <select class="filter-select" id="statusFilter">
+                    <option value="">All Statuses</option>
+                    <option value="Confirmed">Confirmed</option>
+                    <option value="Pending">Pending</option>
+                    <option value="Cancelled">Cancelled</option>
+                </select>
+                <select class="filter-select" id="attendanceFilter">
+                    <option value="">All Attendance</option>
+                    <option value="Attended">Attended</option>
+                    <option value="Not Attended">Not Attended</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="attendeesTable">
+                <thead>
+                    <tr>
+                        <th data-sort="name">NAME</th>
+                        <th data-sort="type">ATTENDEE TYPE</th>
+                        <th data-sort="status">STATUS</th>
+                        <th data-sort="attendance">ATTENDANCE</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Table rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination">
+            <div class="results-info">
+                <span id="resultsText">Showing 1 to 10 of 97 results</span>
+                <button class="reset-filters" id="resetFilters">Reset filters</button>
+            </div>
+            <div class="pagination-controls" id="paginationControls">
+                <!-- Pagination buttons will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample attendee data
+        const attendees = [
+            { id: 1, name: "Ethan Harper", email: "ethan.harper@email.com", type: "VIP", status: "Confirmed", attendance: "Attended" },
+            { id: 2, name: "Olivia Bennett", email: "olivia.bennett@email.com", type: "General", status: "Confirmed", attendance: "Not Attended" },
+            { id: 3, name: "Noah Carter", email: "noah.carter@email.com", type: "Speaker", status: "Confirmed", attendance: "Attended" },
+            { id: 4, name: "Ava Mitchell", email: "ava.mitchell@email.com", type: "General", status: "Pending", attendance: "Not Attended" },
+            { id: 5, name: "Liam Johnson", email: "liam.johnson@email.com", type: "VIP", status: "Confirmed", attendance: "Attended" },
+            { id: 6, name: "Sophia Williams", email: "sophia.williams@email.com", type: "Speaker", status: "Cancelled", attendance: "Not Attended" },
+            { id: 7, name: "Mason Brown", email: "mason.brown@email.com", type: "General", status: "Confirmed", attendance: "Not Attended" },
+            { id: 8, name: "Isabella Davis", email: "isabella.davis@email.com", type: "VIP", status: "Pending", attendance: "Not Attended" },
+            { id: 9, name: "William Miller", email: "william.miller@email.com", type: "General", status: "Confirmed", attendance: "Attended" },
+            { id: 10, name: "Mia Wilson", email: "mia.wilson@email.com", type: "Speaker", status: "Confirmed", attendance: "Attended" }
+        ];
+
+        // State variables
+        let currentPage = 1;
+        const itemsPerPage = 5;
+        let filteredAttendees = [...attendees];
+        let sortColumn = 'name';
+        let sortDirection = 'asc';
+
+        // DOM elements
+        const searchInput = document.getElementById('searchInput');
+        const typeFilter = document.getElementById('typeFilter');
+        const statusFilter = document.getElementById('statusFilter');
+        const attendanceFilter = document.getElementById('attendanceFilter');
+        const tableBody = document.getElementById('tableBody');
+        const resultsText = document.getElementById('resultsText');
+        const paginationControls = document.getElementById('paginationControls');
+        const resetFiltersBtn = document.getElementById('resetFilters');
+        const tableHeaders = document.querySelectorAll('th[data-sort]');
+
+        // Initialize the table
+        function initTable() {
+            renderTable();
+            setupEventListeners();
+        }
+
+        // Set up event listeners
+        function setupEventListeners() {
+            searchInput.addEventListener('input', applyFilters);
+            typeFilter.addEventListener('change', applyFilters);
+            statusFilter.addEventListener('change', applyFilters);
+            attendanceFilter.addEventListener('change', applyFilters);
+            resetFiltersBtn.addEventListener('click', resetFilters);
+
+            tableHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const column = header.getAttribute('data-sort');
+                    if (sortColumn === column) {
+                        sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        sortColumn = column;
+                        sortDirection = 'asc';
+                    }
+
+                    // Update UI to show sorted column
+                    tableHeaders.forEach(h => h.classList.remove('sorted'));
+                    header.classList.add('sorted');
+
+                    applyFilters();
+                });
+            });
+        }
+
+        // Apply all filters and sorting
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const typeValue = typeFilter.value;
+            const statusValue = statusFilter.value;
+            const attendanceValue = attendanceFilter.value;
+
+            // Filter attendees
+            filteredAttendees = attendees.filter(attendee => {
+                const matchesSearch =
+                    attendee.name.toLowerCase().includes(searchTerm) ||
+                    attendee.email.toLowerCase().includes(searchTerm);
+
+                const matchesType = !typeValue || attendee.type === typeValue;
+                const matchesStatus = !statusValue || attendee.status === statusValue;
+                const matchesAttendance = !attendanceValue || attendee.attendance === attendanceValue;
+
+                return matchesSearch && matchesType && matchesStatus && matchesAttendance;
+            });
+
+            // Sort attendees
+            filteredAttendees.sort((a, b) => {
+                let aValue = a[sortColumn];
+                let bValue = b[sortColumn];
+
+                // For name sorting, use lowercase for case-insensitive sorting
+                if (sortColumn === 'name') {
+                    aValue = aValue.toLowerCase();
+                    bValue = bValue.toLowerCase();
+                }
+
+                if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+                if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            currentPage = 1;
+            renderTable();
+            updatePagination();
+        }
+
+        // Reset all filters
+        function resetFilters() {
+            searchInput.value = '';
+            typeFilter.value = '';
+            statusFilter.value = '';
+            attendanceFilter.value = '';
+            sortColumn = 'name';
+            sortDirection = 'asc';
+
+            // Reset sorted column UI
+            tableHeaders.forEach(header => {
+                header.classList.remove('sorted');
+                if (header.getAttribute('data-sort') === 'name') {
+                    header.classList.add('sorted');
+                }
+            });
+
+            applyFilters();
+        }
+
+        // Render the table with current data
+        function renderTable() {
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageAttendees = filteredAttendees.slice(startIndex, endIndex);
+
+            tableBody.innerHTML = '';
+
+            if (pageAttendees.length === 0) {
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="no-results">
+                            No attendees match your current filters.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            pageAttendees.forEach(attendee => {
+                const row = document.createElement('tr');
+
+                // Determine status badge class
+                let statusClass = '';
+                if (attendee.status === 'Confirmed') statusClass = 'status-confirmed';
+                else if (attendee.status === 'Pending') statusClass = 'status-pending';
+                else if (attendee.status === 'Cancelled') statusClass = 'status-cancelled';
+
+                // Determine attendance badge class
+                let attendanceClass = '';
+                if (attendee.attendance === 'Attended') attendanceClass = 'attendance-attended';
+                else if (attendee.attendance === 'Not Attended') attendanceClass = 'attendance-not-attended';
+
+                row.innerHTML = `
+                    <td>
+                        <div class="attendee-name">${attendee.name}</div>
+                        <div class="attendee-email">${attendee.email}</div>
+                    </td>
+                    <td>${attendee.type}</td>
+                    <td>
+                        <span class="status-badge ${statusClass}">${attendee.status}</span>
+                    </td>
+                    <td>
+                        <span class="status-badge ${attendanceClass}">${attendee.attendance}</span>
+                    </td>
+                    <td>
+                        <a href="#" class="action-link">View/Edit</a>
+                    </td>
+                `;
+
+                tableBody.appendChild(row);
+            });
+
+            // Update results text
+            const total = filteredAttendees.length;
+            const start = total > 0 ? startIndex + 1 : 0;
+            const end = Math.min(startIndex + itemsPerPage, total);
+            resultsText.textContent = `Showing ${start} to ${end} of ${total} results`;
+        }
+
+        // Update pagination controls
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredAttendees.length / itemsPerPage);
+
+            paginationControls.innerHTML = '';
+
+            if (totalPages <= 1) return;
+
+            // Previous button
+            const prevButton = document.createElement('button');
+            prevButton.className = 'pagination-btn';
+            prevButton.textContent = '‹';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                    updatePagination();
+                }
+            });
+            paginationControls.appendChild(prevButton);
+
+            // Page buttons
+            for (let i = 1; i <= totalPages; i++) {
+                // Show only a subset of pages if there are many
+                if (totalPages > 7 &&
+                    i !== 1 &&
+                    i !== totalPages &&
+                    Math.abs(i - currentPage) > 2) {
+                    if (i === 2 || i === totalPages - 1) {
+                        const ellipsis = document.createElement('span');
+                        ellipsis.textContent = '...';
+                        ellipsis.style.padding = '6px 12px';
+                        paginationControls.appendChild(ellipsis);
+                    }
+                    continue;
+                }
+
+                const pageButton = document.createElement('button');
+                pageButton.className = `pagination-btn ${i === currentPage ? 'active' : ''}`;
+                pageButton.textContent = i;
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderTable();
+                    updatePagination();
+                });
+                paginationControls.appendChild(pageButton);
+            }
+
+            // Next button
+            const nextButton = document.createElement('button');
+            nextButton.className = 'pagination-btn';
+            nextButton.textContent = '›';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable();
+                    updatePagination();
+                }
+            });
+            paginationControls.appendChild(nextButton);
+        }
+
+        // Initialize the table when the page loads
+        document.addEventListener('DOMContentLoaded', initTable);
+    </script>
+</body>
+
+</html>
