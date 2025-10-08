@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>aBility Dashboard</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="shortcut icon" href="https://img.icons8.com/officel/80/queue.png" type="image/x-icon">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Titillium+Web:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700&display=swap');
 
@@ -2202,6 +2203,58 @@
                 </div>
             </div>
         </main>
+    </div>
+
+    <!-- Create Event Modal -->
+    <div class="modal-overlay" id="eventModal">
+        <div class="modal">
+            <div class="modal-header" style="background-color: var(--primary);">
+                <h2 class="modal-title titillium-web-light" id="modalTitle">Create New Event</h2>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <div class="form-group">
+                        <label class="form-label" for="eventName">Event Name</label>
+                        <input type="text" class="form-control" id="eventName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="eventDescription">Description</label>
+                        <textarea class="form-control" id="eventDescription" rows="3"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="startDate">Start Date</label>
+                            <input type="date" class="form-control" id="startDate" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="endDate">End Date</label>
+                            <input type="date" class="form-control" id="endDate" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="eventLocation">Location</label>
+                        <input type="text" class="form-control" id="eventLocation" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="eventCapacity">Capacity</label>
+                        <input type="number" class="form-control" id="eventCapacity" min="1">
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" id="cancelBtn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Event</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <script>
