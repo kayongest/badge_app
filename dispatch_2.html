@@ -23,7 +23,7 @@
             --radius: 12px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
             --samsung: #1428a0;
-            --neiltic: #059669;
+            --Neiitic: #059669;
             --sony: #000;
             --rwk: #7c3aed;
         }
@@ -43,7 +43,7 @@
             --border: #334155;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
             --samsung: #3b82f6;
-            --neiltic: #10b981;
+            --Neiitic: #10b981;
             --sony: #f1f5f9;
             --rwk: #a78bfa;
         }
@@ -728,9 +728,9 @@
             text-transform: uppercase;
         }
 
-        .brand-neiltic {
+        .brand-Neiitic {
             background: rgba(5, 150, 105, 0.1);
-            color: var(--neiltic);
+            color: var(--Neiitic);
         }
 
         .brand-samsung {
@@ -866,20 +866,20 @@
 
             <!-- Stats Overview -->
             <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-value" id="totalItems">48</div>
+                <div class="stat-card" style="background-color: #2C3639;">
+                    <div class="stat-value" id="totalItems" style="color: #fff;">48</div>
                     <div class="stat-label">Total Items</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value">8</div>
+                <div class="stat-card" style="background-color: #3F4E4F;">
+                    <div class="stat-value" style="color: #fff;">8</div>
                     <div class="stat-label">In Transit</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value">3</div>
+                <div class="stat-card" style="background-color: #A27B5C;">
+                    <div class="stat-value" style="color: #fff;">3</div>
                     <div class="stat-label">Vans Active</div>
                 </div>
-                <div class="stat-card">
-                    <div class="stat-value">16</div>
+                <div class="stat-card" style="background-color: #DCD7C9;">
+                    <div class="stat-value" style="color: #fff;">16</div>
                     <div class="stat-label">Delivered</div>
                 </div>
             </div>
@@ -944,7 +944,7 @@
                     <button class="filter-btn" data-filter="55">55 inch</button>
                     <button class="filter-btn" data-filter="48">48 inch</button>
                     <button class="filter-btn" data-filter="32">32 inch</button>
-                    <button class="filter-btn" data-filter="neiltic">Neiltic</button>
+                    <button class="filter-btn" data-filter="Neiitic">Neiitic</button>
                     <button class="filter-btn" data-filter="samsung">Samsung</button>
                     <button class="filter-btn" data-filter="sony">Sony</button>
                     <button class="filter-btn" data-filter="rwk">RWK</button>
@@ -993,7 +993,7 @@
 
                 <div class="tv-details">
                     <div class="tv-info">
-                        <span>TV: 55inch (Neiltic)</span>
+                        <span>TV: 55inch (Neiitic)</span>
                         <span class="qty-badge">18</span>
                     </div>
                 </div>
@@ -1208,7 +1208,7 @@
                         <select class="form-control" required>
                             <option value="">Select brand</option>
                             <option value="samsung">Samsung</option>
-                            <option value="neiltic">Neiltic</option>
+                            <option value="Neiitic">Neiitic</option>
                             <option value="sony">Sony</option>
                             <option value="rwk">RWK</option>
                         </select>
@@ -1264,7 +1264,7 @@
                         <select class="form-control" id="itemBrand" required>
                             <option value="">Select brand</option>
                             <option value="samsung">Samsung</option>
-                            <option value="neiltic">Neiltic</option>
+                            <option value="Neiitic">Neiitic</option>
                             <option value="sony">Sony</option>
                             <option value="rwk">RWK</option>
                         </select>
@@ -1379,28 +1379,28 @@
     <script>
         // Sample data
         let requests = [
-            { id: 1, venue: "Main Hall", size: "75 inch", brand: "Neiltic", quantity: 2, priority: "high", status: "pending" },
+            { id: 1, venue: "Main Hall", size: "75 inch", brand: "Neiitic", quantity: 2, priority: "high", status: "pending" },
             { id: 2, venue: "Room 201", size: "55 inch", brand: "Samsung", quantity: 1, priority: "medium", status: "approved" },
             { id: 3, venue: "Conference Room", size: "48 inch", brand: "Samsung", quantity: 3, priority: "low", status: "pending" }
         ];
 
         let transitItems = [
-            { id: 1, venue: "Main Hall", size: "75 inch", brand: "Neiltic", van: "Van 1", turns: 2, status: "in-transit" },
+            { id: 1, venue: "Main Hall", size: "75 inch", brand: "Neiitic", van: "Van 1", turns: 2, status: "in-transit" },
             { id: 2, venue: "Room 305", size: "32 inch", brand: "Samsung", van: "Van 2", turns: 1, status: "in-transit" }
         ];
 
         let inventoryItems = [
-            { id: 1, name: "75 inch TV", size: "75", brand: "Neiltic", status: "available", location: "Warehouse A", serial: "TV75-001", lastMaintenance: "2023-10-15" },
+            { id: 1, name: "75 inch TV", size: "75", brand: "Neiitic", status: "available", location: "Warehouse A", serial: "TV75-001", lastMaintenance: "2023-10-15" },
             { id: 2, name: "55 inch TV", size: "55", brand: "Samsung", status: "in-use", location: "Conference Room", serial: "TV55-042", lastMaintenance: "2023-11-20" },
             { id: 3, name: "48 inch TV", size: "48", brand: "Samsung", status: "maintenance", location: "Repair Station", serial: "TV48-015", lastMaintenance: "2023-12-05" },
             { id: 4, name: "32 inch TV", size: "32", brand: "Samsung", status: "available", location: "Warehouse B", serial: "TV32-087", lastMaintenance: "2023-09-30" },
-            { id: 5, name: "75 inch TV", size: "75", brand: "Neiltic", status: "damaged", location: "Quarantine", serial: "TV75-033", lastMaintenance: "2023-08-12" },
+            { id: 5, name: "75 inch TV", size: "75", brand: "Neiitic", status: "damaged", location: "Quarantine", serial: "TV75-033", lastMaintenance: "2023-08-12" },
             { id: 6, name: "55 inch TV", size: "55", brand: "Samsung", status: "available", location: "Warehouse A", serial: "TV55-101", lastMaintenance: "2023-10-28" }
         ];
 
         // NEW: TV Equipment Data for Cards
         const tvEquipment = [
-            { size: "55", brand: "Neiltic", quantity: 20 },
+            { size: "55", brand: "Neiitic", quantity: 20 },
             { size: "55", brand: "Samsung", quantity: 7 },
             { size: "55", brand: "Sony", quantity: 7 },
             { size: "48", brand: "Samsung", quantity: 2 },
@@ -1621,7 +1621,7 @@
 
                 // Determine brand class
                 let brandClass = '';
-                if (item.brand === 'Neiltic') brandClass = 'brand-neiltic';
+                if (item.brand === 'Neiitic') brandClass = 'brand-Neiitic';
                 else if (item.brand === 'Samsung') brandClass = 'brand-samsung';
                 else if (item.brand === 'Sony') brandClass = 'brand-sony';
                 else if (item.brand === 'RWK') brandClass = 'brand-rwk';
