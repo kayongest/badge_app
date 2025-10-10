@@ -22,6 +22,10 @@
             --border: #e2e8f0;
             --radius: 12px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --samsung: #1428a0;
+            --neiltic: #059669;
+            --sony: #000;
+            --rwk: #7c3aed;
         }
 
         [data-theme="dark"] {
@@ -38,6 +42,10 @@
             --text-light: #94a3b8;
             --border: #334155;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            --samsung: #3b82f6;
+            --neiltic: #10b981;
+            --sony: #f1f5f9;
+            --rwk: #a78bfa;
         }
 
         * {
@@ -609,6 +617,209 @@
             transform: translateX(20px);
         }
 
+        /* NEW STYLES FOR TV EQUIPMENT CARDS */
+        .search-section {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 16px;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .search-btn {
+            padding: 12px 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .qty-badge {
+            padding: 6px 12px;
+            background: var(--primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .card-details {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .detail-value {
+            font-weight: 600;
+        }
+
+        .brand-badge {
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .brand-neiltic {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--neiltic);
+        }
+
+        .brand-samsung {
+            background: rgba(20, 40, 160, 0.1);
+            color: var(--samsung);
+        }
+
+        .brand-sony {
+            background: rgba(0, 0, 0, 0.1);
+            color: var(--sony);
+        }
+
+        .brand-rwk {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--rwk);
+        }
+
+        /* NEW STYLES FOR DISPATCH ROOMS */
+        .room-card {
+            background: var(--bg);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .room-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .room-name {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .tv-details {
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .tv-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stands-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .stand-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .stand-name {
+            font-size: 14px;
+        }
+
+        .stand-qty {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            z-index: 100;
+        }
+
         /* Utility Classes */
         .hidden {
             display: none;
@@ -631,6 +842,14 @@
             .quick-actions {
                 grid-template-columns: repeat(2, 1fr);
             }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
@@ -648,7 +867,7 @@
             <!-- Stats Overview -->
             <div class="stats-grid">
                 <div class="stat-card">
-                    <div class="stat-value" id="totalItems">24</div>
+                    <div class="stat-value" id="totalItems">48</div>
                     <div class="stat-label">Total Items</div>
                 </div>
                 <div class="stat-card">
@@ -711,24 +930,41 @@
                 <p>Manage your equipment stock</p>
             </div>
 
-            <!-- Inventory Filters -->
-            <div class="inventory-filters">
-                <button class="filter-btn active" data-filter="all">All Items</button>
-                <button class="filter-btn" data-filter="available">Available</button>
-                <button class="filter-btn" data-filter="in-use">In Use</button>
-                <button class="filter-btn" data-filter="maintenance">Maintenance</button>
-                <button class="filter-btn" data-filter="damaged">Damaged</button>
+            <!-- NEW: Search and Filters for TV Equipment -->
+            <div class="search-section">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Search by size, brand, or quantity..."
+                        id="searchInput">
+                    <button class="search-btn" id="searchBtn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+                <div class="filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="55">55 inch</button>
+                    <button class="filter-btn" data-filter="48">48 inch</button>
+                    <button class="filter-btn" data-filter="32">32 inch</button>
+                    <button class="filter-btn" data-filter="neiltic">Neiltic</button>
+                    <button class="filter-btn" data-filter="samsung">Samsung</button>
+                    <button class="filter-btn" data-filter="sony">Sony</button>
+                    <button class="filter-btn" data-filter="rwk">RWK</button>
+                </div>
             </div>
 
-            <!-- Inventory Search -->
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="Search inventory..." id="inventorySearch">
-            </div>
-
-            <!-- Inventory List -->
+            <!-- NEW: TV Equipment Cards -->
             <div class="section-title">
-                <span>TV Equipment</span>
-                <span class="view-all" id="inventoryCount">24 items</span>
+                <span>TV Equipment Summary</span>
+                <span class="view-all" id="inventoryCount">48 items</span>
+            </div>
+
+            <div class="cards-grid" id="cardsContainer">
+                <!-- Cards will be populated by JavaScript -->
+            </div>
+
+            <!-- Original Inventory List -->
+            <div class="section-title">
+                <span>Detailed Inventory</span>
+                <a href="#" class="view-all">View All</a>
             </div>
 
             <div id="inventoryList">
@@ -745,7 +981,47 @@
                 <p>Manage equipment deliveries</p>
             </div>
 
-            <!-- Active Dispatches -->
+            <!-- NEW: Rooms for Dispatch -->
+            <div class="section-title">
+                <span>Rooms for Dispatch</span>
+            </div>
+
+            <div class="room-card">
+                <div class="room-header">
+                    <div class="room-name">Room: MH4</div>
+                </div>
+
+                <div class="tv-details">
+                    <div class="tv-info">
+                        <span>TV: 55inch (Neiltic)</span>
+                        <span class="qty-badge">18</span>
+                    </div>
+                </div>
+
+                <div class="stands-section">
+                    <h3 style="margin-bottom: 12px; font-size: 16px;">Stands:</h3>
+                    <div class="stands-list">
+                        <div class="stand-item">
+                            <span class="stand-name">Expo</span>
+                            <span class="stand-qty">6</span>
+                        </div>
+                        <div class="stand-item">
+                            <span class="stand-name">RCB</span>
+                            <span class="stand-qty">4</span>
+                        </div>
+                        <div class="stand-item">
+                            <span class="stand-name">Global Inc</span>
+                            <span class="stand-qty">3</span>
+                        </div>
+                        <div class="stand-item">
+                            <span class="stand-name">Expo AHTS</span>
+                            <span class="stand-qty">5</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Original Active Dispatches -->
             <div class="section-title">
                 <span>Active Dispatches</span>
                 <button class="view-all" onclick="showModal('dispatchModal')">New Dispatch</button>
@@ -895,6 +1171,11 @@
         </button>
     </div>
 
+    <!-- Theme Toggle -->
+    <div class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </div>
+
     <!-- New Request Modal -->
     <div class="modal-overlay hidden" id="requestModal">
         <div class="modal">
@@ -919,6 +1200,17 @@
                             <option value="55">55 inch</option>
                             <option value="48">48 inch</option>
                             <option value="32">32 inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Brand</label>
+                        <select class="form-control" required>
+                            <option value="">Select brand</option>
+                            <option value="samsung">Samsung</option>
+                            <option value="neiltic">Neiltic</option>
+                            <option value="sony">Sony</option>
+                            <option value="rwk">RWK</option>
                         </select>
                     </div>
 
@@ -964,6 +1256,17 @@
                             <option value="55">55 inch</option>
                             <option value="48">48 inch</option>
                             <option value="32">32 inch</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Brand</label>
+                        <select class="form-control" id="itemBrand" required>
+                            <option value="">Select brand</option>
+                            <option value="samsung">Samsung</option>
+                            <option value="neiltic">Neiltic</option>
+                            <option value="sony">Sony</option>
+                            <option value="rwk">RWK</option>
                         </select>
                     </div>
 
@@ -1076,23 +1379,33 @@
     <script>
         // Sample data
         let requests = [
-            { id: 1, venue: "Main Hall", size: "75 inch", quantity: 2, priority: "high", status: "pending" },
-            { id: 2, venue: "Room 201", size: "55 inch", quantity: 1, priority: "medium", status: "approved" },
-            { id: 3, venue: "Conference Room", size: "48 inch", quantity: 3, priority: "low", status: "pending" }
+            { id: 1, venue: "Main Hall", size: "75 inch", brand: "Neiltic", quantity: 2, priority: "high", status: "pending" },
+            { id: 2, venue: "Room 201", size: "55 inch", brand: "Samsung", quantity: 1, priority: "medium", status: "approved" },
+            { id: 3, venue: "Conference Room", size: "48 inch", brand: "Samsung", quantity: 3, priority: "low", status: "pending" }
         ];
 
         let transitItems = [
-            { id: 1, venue: "Main Hall", size: "75 inch", van: "Van 1", turns: 2, status: "in-transit" },
-            { id: 2, venue: "Room 305", size: "32 inch", van: "Van 2", turns: 1, status: "in-transit" }
+            { id: 1, venue: "Main Hall", size: "75 inch", brand: "Neiltic", van: "Van 1", turns: 2, status: "in-transit" },
+            { id: 2, venue: "Room 305", size: "32 inch", brand: "Samsung", van: "Van 2", turns: 1, status: "in-transit" }
         ];
 
         let inventoryItems = [
-            { id: 1, name: "75 inch TV", size: "75", status: "available", location: "Warehouse A", serial: "TV75-001", lastMaintenance: "2023-10-15" },
-            { id: 2, name: "55 inch TV", size: "55", status: "in-use", location: "Conference Room", serial: "TV55-042", lastMaintenance: "2023-11-20" },
-            { id: 3, name: "48 inch TV", size: "48", status: "maintenance", location: "Repair Station", serial: "TV48-015", lastMaintenance: "2023-12-05" },
-            { id: 4, name: "32 inch TV", size: "32", status: "available", location: "Warehouse B", serial: "TV32-087", lastMaintenance: "2023-09-30" },
-            { id: 5, name: "75 inch TV", size: "75", status: "damaged", location: "Quarantine", serial: "TV75-033", lastMaintenance: "2023-08-12" },
-            { id: 6, name: "55 inch TV", size: "55", status: "available", location: "Warehouse A", serial: "TV55-101", lastMaintenance: "2023-10-28" }
+            { id: 1, name: "75 inch TV", size: "75", brand: "Neiltic", status: "available", location: "Warehouse A", serial: "TV75-001", lastMaintenance: "2023-10-15" },
+            { id: 2, name: "55 inch TV", size: "55", brand: "Samsung", status: "in-use", location: "Conference Room", serial: "TV55-042", lastMaintenance: "2023-11-20" },
+            { id: 3, name: "48 inch TV", size: "48", brand: "Samsung", status: "maintenance", location: "Repair Station", serial: "TV48-015", lastMaintenance: "2023-12-05" },
+            { id: 4, name: "32 inch TV", size: "32", brand: "Samsung", status: "available", location: "Warehouse B", serial: "TV32-087", lastMaintenance: "2023-09-30" },
+            { id: 5, name: "75 inch TV", size: "75", brand: "Neiltic", status: "damaged", location: "Quarantine", serial: "TV75-033", lastMaintenance: "2023-08-12" },
+            { id: 6, name: "55 inch TV", size: "55", brand: "Samsung", status: "available", location: "Warehouse A", serial: "TV55-101", lastMaintenance: "2023-10-28" }
+        ];
+
+        // NEW: TV Equipment Data for Cards
+        const tvEquipment = [
+            { size: "55", brand: "Neiltic", quantity: 20 },
+            { size: "55", brand: "Samsung", quantity: 7 },
+            { size: "55", brand: "Sony", quantity: 7 },
+            { size: "48", brand: "Samsung", quantity: 2 },
+            { size: "32", brand: "Samsung", quantity: 6 },
+            { size: "32", brand: "RWK", quantity: 6 }
         ];
 
         const activeDispatches = [
@@ -1112,6 +1425,7 @@
             renderTransitItems();
             renderInventory();
             renderDispatches();
+            renderCards();
             updateStats();
             setupEventListeners();
             setupNavigation();
@@ -1153,13 +1467,33 @@
                 const theme = this.checked ? 'dark' : 'light';
                 document.documentElement.setAttribute('data-theme', theme);
                 localStorage.setItem('theme', theme);
+                updateThemeIcon(theme);
             });
+
+            // Theme toggle button
+            document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+            updateThemeIcon(savedTheme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            document.getElementById('darkModeToggle').checked = newTheme === 'dark';
+            updateThemeIcon(newTheme);
+        }
+
+        function updateThemeIcon(theme) {
+            const icon = document.querySelector('#themeToggle i');
+            icon.className = theme === 'light' ? 'fas fa-moon' : 'fas fa-sun';
         }
 
         // Update stats
         function updateStats() {
-            document.getElementById('totalItems').textContent = inventoryItems.length;
-            document.getElementById('inventoryCount').textContent = `${inventoryItems.length} items`;
+            document.getElementById('totalItems').textContent = tvEquipment.reduce((sum, item) => sum + item.quantity, 0);
+            document.getElementById('inventoryCount').textContent = `${tvEquipment.reduce((sum, item) => sum + item.quantity, 0)} items`;
         }
 
         // Render requests list
@@ -1181,7 +1515,7 @@
 
                 card.innerHTML = `
                     <div class="equipment-info">
-                        <div class="equipment-name">${request.size} TV</div>
+                        <div class="equipment-name">${request.size} ${request.brand} TV</div>
                         <div class="equipment-details">
                             <span>${request.venue}</span>
                             <span>Qty: ${request.quantity}</span>
@@ -1205,7 +1539,7 @@
 
                 card.innerHTML = `
                     <div class="equipment-info">
-                        <div class="equipment-name">${item.size} TV</div>
+                        <div class="equipment-name">${item.size} ${item.brand} TV</div>
                         <div class="equipment-details">
                             <span>${item.venue}</span>
                             <span>${item.van}</span>
@@ -1262,6 +1596,89 @@
 
                 container.appendChild(inventoryItem);
             });
+        }
+
+        // NEW: Render TV Equipment Cards
+        function renderCards(filteredData = null) {
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+
+            const dataToRender = filteredData || tvEquipment;
+
+            if (dataToRender.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--text-light);">
+                        <i class="fas fa-search" style="font-size: 48px; margin-bottom: 16px;"></i>
+                        <p>No equipment found matching your criteria</p>
+                    </div>
+                `;
+                return;
+            }
+
+            dataToRender.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'card';
+
+                // Determine brand class
+                let brandClass = '';
+                if (item.brand === 'Neiltic') brandClass = 'brand-neiltic';
+                else if (item.brand === 'Samsung') brandClass = 'brand-samsung';
+                else if (item.brand === 'Sony') brandClass = 'brand-sony';
+                else if (item.brand === 'RWK') brandClass = 'brand-rwk';
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <div class="card-title">TV: ${item.size}inch</div>
+                        <div class="qty-badge">${item.quantity}</div>
+                    </div>
+                    <div class="card-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Brand</span>
+                            <span class="brand-badge ${brandClass}">${item.brand}</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Size</span>
+                            <span class="detail-value">${item.size} inch</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Available</span>
+                            <span class="detail-value">${item.quantity} units</span>
+                        </div>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        // NEW: Filter and search functionality for TV Equipment
+        function filterEquipment() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const activeFilter = document.querySelector('.search-section .filter-btn.active').getAttribute('data-filter');
+
+            let filteredData = tvEquipment;
+
+            // Apply search filter
+            if (searchTerm) {
+                filteredData = filteredData.filter(item =>
+                    item.size.includes(searchTerm) ||
+                    item.brand.toLowerCase().includes(searchTerm) ||
+                    item.quantity.toString().includes(searchTerm)
+                );
+            }
+
+            // Apply category filter
+            if (activeFilter !== 'all') {
+                if (['55', '48', '32'].includes(activeFilter)) {
+                    filteredData = filteredData.filter(item => item.size === activeFilter);
+                } else {
+                    filteredData = filteredData.filter(item =>
+                        item.brand.toLowerCase() === activeFilter.toLowerCase()
+                    );
+                }
+            }
+
+            renderCards(filteredData);
         }
 
         // Render dispatches
@@ -1354,12 +1771,13 @@
         }
 
         // Add new item
-        function addNewItem(size, serial, location, status) {
+        function addNewItem(size, brand, serial, location, status) {
             const newId = inventoryItems.length > 0 ? Math.max(...inventoryItems.map(item => item.id)) + 1 : 1;
             const newItem = {
                 id: newId,
                 name: `${size} inch TV`,
                 size: size,
+                brand: brand,
                 status: status,
                 location: location,
                 serial: serial,
@@ -1371,7 +1789,7 @@
             updateStats();
 
             // Show success message
-            alert(`New ${size} inch TV added successfully!`);
+            alert(`New ${size} inch ${brand} TV added successfully!`);
         }
 
         // Modal functions
@@ -1424,11 +1842,12 @@
             document.getElementById('addItemForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 const size = document.getElementById('itemSize').value;
+                const brand = document.getElementById('itemBrand').value;
                 const serial = document.getElementById('itemSerial').value;
                 const location = document.getElementById('itemLocation').value;
                 const status = document.getElementById('itemStatus').value;
 
-                addNewItem(size, serial, location, status);
+                addNewItem(size, brand, serial, location, status);
                 hideModal('addItemModal');
 
                 // Reset form
@@ -1436,13 +1855,30 @@
             });
 
             // Inventory filters
-            document.querySelectorAll('.filter-btn').forEach(btn => {
+            document.querySelectorAll('.inventory-filters .filter-btn').forEach(btn => {
                 btn.addEventListener('click', function () {
-                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.inventory-filters .filter-btn').forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     const filter = this.getAttribute('data-filter');
                     renderInventory(filter);
                 });
+            });
+
+            // NEW: TV Equipment filters
+            document.querySelectorAll('.search-section .filter-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.search-section .filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterEquipment();
+                });
+            });
+
+            // NEW: Search functionality
+            document.getElementById('searchBtn').addEventListener('click', filterEquipment);
+            document.getElementById('searchInput').addEventListener('keyup', function (e) {
+                if (e.key === 'Enter') {
+                    filterEquipment();
+                }
             });
 
             // Close modals when clicking outside
