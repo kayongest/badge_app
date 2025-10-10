@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,8 +8,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --primary: #27375a;
-            --primary-light: #27375a;
+            --primary: #293c64;
+            --primary-light: #293c64;
             --secondary: #64748b;
             --accent: #f59e0b;
             --success: #10b981;
@@ -206,6 +207,16 @@
             color: var(--success);
         }
 
+        .status-maintenance {
+            background: #fef3c7;
+            color: var(--warning);
+        }
+
+        .status-damaged {
+            background: #fee2e2;
+            color: var(--danger);
+        }
+
         /* Forms */
         .form-group {
             margin-bottom: 16px;
@@ -277,6 +288,7 @@
             padding: 12px 0;
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             border-top: 1px solid var(--border);
+            z-index: 100;
         }
 
         .nav-item {
@@ -287,6 +299,9 @@
             font-size: 12px;
             color: var(--text-light);
             text-decoration: none;
+            background: none;
+            border: none;
+            cursor: pointer;
         }
 
         .nav-item.active {
@@ -346,6 +361,228 @@
             padding: 20px;
         }
 
+        /* Page Sections */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Inventory Styles */
+        .inventory-filters {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .filter-btn {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .inventory-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 12px;
+        }
+
+        .inventory-icon {
+            width: 50px;
+            height: 50px;
+            background: #dbeafe;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 20px;
+        }
+
+        .inventory-details {
+            flex: 1;
+        }
+
+        .inventory-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .inventory-meta {
+            font-size: 13px;
+            color: var(--text-light);
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Dispatch Styles */
+        .dispatch-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .dispatch-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .dispatch-title {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .dispatch-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .dispatch-detail {
+            font-size: 14px;
+        }
+
+        .dispatch-detail-label {
+            color: var(--text-light);
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .dispatch-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .dispatch-action {
+            flex: 1;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--card-bg);
+            color: var(--text);
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .dispatch-action.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* Settings Styles */
+        .settings-section {
+            margin-bottom: 24px;
+        }
+
+        .settings-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .settings-info {
+            flex: 1;
+        }
+
+        .settings-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+
+        .settings-desc {
+            font-size: 13px;
+            color: var(--text-light);
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.toggle-slider {
+            background-color: var(--primary);
+        }
+
+        input:checked+.toggle-slider:before {
+            transform: translateX(20px);
+        }
+
         /* Utility Classes */
         .hidden {
             display: none;
@@ -364,96 +601,272 @@
             .stats-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .quick-actions {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
     </style>
 </head>
+
 <body>
-    <div class="container">
-        <!-- Header -->
-        <div class="header">
-            <h1><i class="fas fa-tv"></i> EquipTrack</h1>
-            <p>TV Equipment Management</p>
-        </div>
-
-        <!-- Stats Overview -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-value">24</div>
-                <div class="stat-label">Total Items</div>
+    <!-- Home Page -->
+    <div id="home" class="page active">
+        <div class="container">
+            <!-- Header -->
+            <div class="header">
+                <h1><i class="fas fa-tv"></i> EquipTrack</h1>
+                <p>TV Equipment Management</p>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">8</div>
-                <div class="stat-label">In Transit</div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Total Items</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">8</div>
+                    <div class="stat-label">In Transit</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Vans Active</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">16</div>
+                    <div class="stat-label">Delivered</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">3</div>
-                <div class="stat-label">Vans Active</div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <button class="action-btn" onclick="showModal('requestModal')">
+                    <i class="fas fa-plus-circle"></i>
+                    New Request
+                </button>
+                <button class="action-btn" onclick="showModal('dispatchModal')">
+                    <i class="fas fa-truck"></i>
+                    Dispatch
+                </button>
+                <button class="action-btn" onclick="showModal('scanModal')">
+                    <i class="fas fa-qrcode"></i>
+                    Scan Item
+                </button>
             </div>
-            <div class="stat-card">
-                <div class="stat-value">16</div>
-                <div class="stat-label">Delivered</div>
+
+            <!-- Active Requests -->
+            <div class="section-title">
+                <span>Active Requests</span>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="equipment-list" id="requestsList">
+                <!-- Requests will be populated by JavaScript -->
+            </div>
+
+            <!-- Equipment in Transit -->
+            <div class="section-title">
+                <span>In Transit</span>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div class="equipment-list" id="transitList">
+                <!-- Transit items will be populated by JavaScript -->
             </div>
         </div>
+    </div>
 
-        <!-- Quick Actions -->
-        <div class="quick-actions">
-            <button class="action-btn" onclick="showModal('requestModal')">
-                <i class="fas fa-plus-circle"></i>
-                New Request
-            </button>
-            <button class="action-btn" onclick="showModal('dispatchModal')">
-                <i class="fas fa-truck"></i>
-                Dispatch
-            </button>
-            <button class="action-btn" onclick="showModal('scanModal')">
-                <i class="fas fa-qrcode"></i>
-                Scan Item
-            </button>
+    <!-- Inventory Page -->
+    <div id="inventory" class="page">
+        <div class="container">
+            <div class="header">
+                <h1><i class="fas fa-boxes"></i> Inventory</h1>
+                <p>Manage your equipment stock</p>
+            </div>
+
+            <!-- Inventory Filters -->
+            <div class="inventory-filters">
+                <button class="filter-btn active" data-filter="all">All Items</button>
+                <button class="filter-btn" data-filter="available">Available</button>
+                <button class="filter-btn" data-filter="in-use">In Use</button>
+                <button class="filter-btn" data-filter="maintenance">Maintenance</button>
+                <button class="filter-btn" data-filter="damaged">Damaged</button>
+            </div>
+
+            <!-- Inventory Search -->
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search inventory..." id="inventorySearch">
+            </div>
+
+            <!-- Inventory List -->
+            <div class="section-title">
+                <span>TV Equipment</span>
+                <span class="view-all">24 items</span>
+            </div>
+
+            <div id="inventoryList">
+                <!-- Inventory items will be populated by JavaScript -->
+            </div>
         </div>
+    </div>
 
-        <!-- Active Requests -->
-        <div class="section-title">
-            <span>Active Requests</span>
-            <a href="#" class="view-all">View All</a>
+    <!-- Dispatch Page -->
+    <div id="dispatch" class="page">
+        <div class="container">
+            <div class="header">
+                <h1><i class="fas fa-truck"></i> Dispatch</h1>
+                <p>Manage equipment deliveries</p>
+            </div>
+
+            <!-- Active Dispatches -->
+            <div class="section-title">
+                <span>Active Dispatches</span>
+                <button class="view-all" onclick="showModal('dispatchModal')">New Dispatch</button>
+            </div>
+
+            <div id="activeDispatches">
+                <!-- Active dispatches will be populated by JavaScript -->
+            </div>
+
+            <!-- Dispatch History -->
+            <div class="section-title">
+                <span>Recent History</span>
+                <a href="#" class="view-all">View All</a>
+            </div>
+
+            <div id="dispatchHistory">
+                <!-- Dispatch history will be populated by JavaScript -->
+            </div>
         </div>
+    </div>
 
-        <div class="equipment-list" id="requestsList">
-            <!-- Requests will be populated by JavaScript -->
-        </div>
+    <!-- Settings Page -->
+    <div id="settings" class="page">
+        <div class="container">
+            <div class="header">
+                <h1><i class="fas fa-cog"></i> Settings</h1>
+                <p>Configure your application</p>
+            </div>
 
-        <!-- Equipment in Transit -->
-        <div class="section-title">
-            <span>In Transit</span>
-            <a href="#" class="view-all">View All</a>
-        </div>
+            <!-- User Settings -->
+            <div class="settings-section">
+                <div class="settings-title">User Settings</div>
 
-        <div class="equipment-list" id="transitList">
-            <!-- Transit items will be populated by JavaScript -->
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Push Notifications</div>
+                        <div class="settings-desc">Receive alerts for dispatch updates</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Dark Mode</div>
+                        <div class="settings-desc">Use dark theme</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Auto-sync</div>
+                        <div class="settings-desc">Sync data automatically</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- App Settings -->
+            <div class="settings-section">
+                <div class="settings-title">Application</div>
+
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Default Van</div>
+                        <div class="settings-desc">Set default delivery vehicle</div>
+                    </div>
+                    <div style="color: var(--primary); font-size: 14px;">Van 1</div>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Scan Sound</div>
+                        <div class="settings-desc">Play sound on successful scan</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Data Backup</div>
+                        <div class="settings-desc">Last backup: Today 10:30 AM</div>
+                    </div>
+                    <button class="btn btn-secondary" style="width: auto; padding: 8px 16px;">Backup Now</button>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="settings-section">
+                <div class="settings-title">About</div>
+
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Version</div>
+                        <div class="settings-desc">EquipTrack Mobile v2.1.0</div>
+                    </div>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Support</div>
+                        <div class="settings-desc">Get help with the app</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: var(--text-light);"></i>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-info">
+                        <div class="settings-name">Privacy Policy</div>
+                        <div class="settings-desc">How we handle your data</div>
+                    </div>
+                    <i class="fas fa-chevron-right" style="color: var(--text-light);"></i>
+                </div>
+            </div>
         </div>
     </div>
 
     <!-- Bottom Navigation -->
     <div class="bottom-nav">
-        <a href="#" class="nav-item active">
+        <button class="nav-item active" data-page="home">
             <i class="fas fa-home"></i>
             <span>Home</span>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-list"></i>
+        </button>
+        <button class="nav-item" data-page="inventory">
+            <i class="fas fa-boxes"></i>
             <span>Inventory</span>
-        </a>
-        <a href="#" class="nav-item">
+        </button>
+        <button class="nav-item" data-page="dispatch">
             <i class="fas fa-truck"></i>
             <span>Dispatch</span>
-        </a>
-        <a href="#" class="nav-item">
+        </button>
+        <button class="nav-item" data-page="settings">
             <i class="fas fa-cog"></i>
             <span>Settings</span>
-        </a>
+        </button>
     </div>
 
     <!-- New Request Modal -->
@@ -471,7 +884,7 @@
                         <label class="form-label">Venue/Room</label>
                         <input type="text" class="form-control" placeholder="e.g., Main Hall, Room 201" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label">TV Size</label>
                         <select class="form-control" required>
@@ -482,12 +895,12 @@
                             <option value="32">32 inch</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label">Quantity</label>
                         <input type="number" class="form-control" min="1" value="1" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label">Priority</label>
                         <select class="form-control" required>
@@ -496,7 +909,7 @@
                             <option value="high">High</option>
                         </select>
                     </div>
-                    
+
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i>
                         Submit Request
@@ -526,30 +939,34 @@
                             <option value="van3">Van 3 (GHI-789)</option>
                         </select>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label">Delivery Turns</label>
                         <input type="number" class="form-control" min="1" max="10" value="1" required>
                     </div>
-                    
+
                     <div class="form-group">
                         <label class="form-label">Items to Dispatch</label>
-                        <div style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 12px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border);">
+                        <div
+                            style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 12px;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border);">
                                 <span>75" TV - Main Hall</span>
                                 <input type="checkbox">
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border);">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border);">
                                 <span>55" TV - Room 201</span>
                                 <input type="checkbox">
                             </div>
-                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0;">
                                 <span>48" TV - Conference Room</span>
                                 <input type="checkbox">
                             </div>
                         </div>
                     </div>
-                    
+
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-truck-loading"></i>
                         Confirm Dispatch
@@ -571,18 +988,19 @@
             <div class="modal-body">
                 <div style="text-align: center; padding: 40px 20px;">
                     <i class="fas fa-qrcode" style="font-size: 64px; color: var(--primary); margin-bottom: 20px;"></i>
-                    <p style="color: var(--text-light); margin-bottom: 20px;">Point your camera at the equipment QR code</p>
+                    <p style="color: var(--text-light); margin-bottom: 20px;">Point your camera at the equipment QR code
+                    </p>
                     <button class="btn btn-secondary">
                         <i class="fas fa-camera"></i>
                         Start Camera
                     </button>
                 </div>
-                
+
                 <div class="form-group mt-4">
                     <label class="form-label">Or Enter Serial Number</label>
                     <input type="text" class="form-control" placeholder="Enter serial number">
                 </div>
-                
+
                 <button class="btn btn-primary">
                     <i class="fas fa-check"></i>
                     Confirm Scan
@@ -604,11 +1022,55 @@
             { id: 2, venue: "Room 305", size: "32 inch", van: "Van 2", turns: 1, status: "in-transit" }
         ];
 
+        const inventoryItems = [
+            { id: 1, name: "75 inch TV", size: "75", status: "available", location: "Warehouse A", serial: "TV75-001", lastMaintenance: "2023-10-15" },
+            { id: 2, name: "55 inch TV", size: "55", status: "in-use", location: "Conference Room", serial: "TV55-042", lastMaintenance: "2023-11-20" },
+            { id: 3, name: "48 inch TV", size: "48", status: "maintenance", location: "Repair Station", serial: "TV48-015", lastMaintenance: "2023-12-05" },
+            { id: 4, name: "32 inch TV", size: "32", status: "available", location: "Warehouse B", serial: "TV32-087", lastMaintenance: "2023-09-30" },
+            { id: 5, name: "75 inch TV", size: "75", status: "damaged", location: "Quarantine", serial: "TV75-033", lastMaintenance: "2023-08-12" },
+            { id: 6, name: "55 inch TV", size: "55", status: "available", location: "Warehouse A", serial: "TV55-101", lastMaintenance: "2023-10-28" }
+        ];
+
+        const activeDispatches = [
+            { id: 1, van: "Van 1", driver: "John Smith", items: 5, turns: 2, status: "loading", startTime: "09:30 AM", estimatedCompletion: "11:00 AM" },
+            { id: 2, van: "Van 2", driver: "Sarah Johnson", items: 3, turns: 1, status: "in-transit", startTime: "10:15 AM", estimatedCompletion: "11:30 AM" }
+        ];
+
+        const dispatchHistory = [
+            { id: 1, van: "Van 3", date: "2023-12-10", items: 4, status: "completed", completionTime: "10:45 AM" },
+            { id: 2, van: "Van 1", date: "2023-12-09", items: 6, status: "completed", completionTime: "11:20 AM" },
+            { id: 3, van: "Van 2", date: "2023-12-08", items: 2, status: "completed", completionTime: "09:55 AM" }
+        ];
+
         // Initialize the app
         function initApp() {
             renderRequests();
             renderTransitItems();
+            renderInventory();
+            renderDispatches();
             setupEventListeners();
+            setupNavigation();
+        }
+
+        // Setup navigation
+        function setupNavigation() {
+            const navItems = document.querySelectorAll('.nav-item');
+
+            navItems.forEach(item => {
+                item.addEventListener('click', function () {
+                    const pageId = this.getAttribute('data-page');
+
+                    // Update active nav item
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Show the selected page
+                    document.querySelectorAll('.page').forEach(page => {
+                        page.classList.remove('active');
+                    });
+                    document.getElementById(pageId).classList.add('active');
+                });
+            });
         }
 
         // Render requests list
@@ -619,10 +1081,10 @@
             requests.forEach(request => {
                 const card = document.createElement('div');
                 card.className = 'equipment-card';
-                
+
                 let statusClass = 'status-stock';
                 let statusText = 'Pending';
-                
+
                 if (request.status === 'approved') {
                     statusClass = 'status-in-transit';
                     statusText = 'Approved';
@@ -638,7 +1100,7 @@
                     </div>
                     <div class="equipment-status ${statusClass}">${statusText}</div>
                 `;
-                
+
                 container.appendChild(card);
             });
         }
@@ -651,7 +1113,7 @@
             transitItems.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'equipment-card';
-                
+
                 card.innerHTML = `
                     <div class="equipment-info">
                         <div class="equipment-name">${item.size} TV</div>
@@ -663,8 +1125,142 @@
                     </div>
                     <div class="equipment-status status-in-transit">In Transit</div>
                 `;
-                
+
                 container.appendChild(card);
+            });
+        }
+
+        // Render inventory
+        function renderInventory(filter = 'all') {
+            const container = document.getElementById('inventoryList');
+            container.innerHTML = '';
+
+            const filteredItems = filter === 'all'
+                ? inventoryItems
+                : inventoryItems.filter(item => item.status === filter);
+
+            filteredItems.forEach(item => {
+                const inventoryItem = document.createElement('div');
+                inventoryItem.className = 'inventory-item';
+
+                let statusClass = 'status-stock';
+                let statusText = 'Available';
+
+                if (item.status === 'in-use') {
+                    statusClass = 'status-in-transit';
+                    statusText = 'In Use';
+                } else if (item.status === 'maintenance') {
+                    statusClass = 'status-maintenance';
+                    statusText = 'Maintenance';
+                } else if (item.status === 'damaged') {
+                    statusClass = 'status-damaged';
+                    statusText = 'Damaged';
+                }
+
+                inventoryItem.innerHTML = `
+                    <div class="inventory-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <div class="inventory-details">
+                        <div class="inventory-name">${item.name}</div>
+                        <div class="inventory-meta">
+                            <span>SN: ${item.serial}</span>
+                            <span>${item.location}</span>
+                        </div>
+                    </div>
+                    <div class="equipment-status ${statusClass}">${statusText}</div>
+                `;
+
+                container.appendChild(inventoryItem);
+            });
+        }
+
+        // Render dispatches
+        function renderDispatches() {
+            // Active dispatches
+            const activeContainer = document.getElementById('activeDispatches');
+            activeContainer.innerHTML = '';
+
+            activeDispatches.forEach(dispatch => {
+                const card = document.createElement('div');
+                card.className = 'dispatch-card';
+
+                let statusClass = 'status-in-transit';
+                let statusText = 'In Transit';
+
+                if (dispatch.status === 'loading') {
+                    statusClass = 'status-stock';
+                    statusText = 'Loading';
+                }
+
+                card.innerHTML = `
+                    <div class="dispatch-header">
+                        <div class="dispatch-title">${dispatch.van}</div>
+                        <div class="equipment-status ${statusClass}">${statusText}</div>
+                    </div>
+                    <div class="dispatch-details">
+                        <div class="dispatch-detail">
+                            <div class="dispatch-detail-label">Driver</div>
+                            <div>${dispatch.driver}</div>
+                        </div>
+                        <div class="dispatch-detail">
+                            <div class="dispatch-detail-label">Items</div>
+                            <div>${dispatch.items} units</div>
+                        </div>
+                        <div class="dispatch-detail">
+                            <div class="dispatch-detail-label">Turns</div>
+                            <div>${dispatch.turns}</div>
+                        </div>
+                        <div class="dispatch-detail">
+                            <div class="dispatch-detail-label">Started</div>
+                            <div>${dispatch.startTime}</div>
+                        </div>
+                    </div>
+                    <div class="dispatch-actions">
+                        <button class="dispatch-action">
+                            <i class="fas fa-eye"></i>
+                            View
+                        </button>
+                        <button class="dispatch-action primary">
+                            <i class="fas fa-edit"></i>
+                            Update
+                        </button>
+                    </div>
+                `;
+
+                activeContainer.appendChild(card);
+            });
+
+            // Dispatch history
+            const historyContainer = document.getElementById('dispatchHistory');
+            historyContainer.innerHTML = '';
+
+            dispatchHistory.forEach(dispatch => {
+                const card = document.createElement('div');
+                card.className = 'dispatch-card';
+
+                card.innerHTML = `
+                    <div class="dispatch-header">
+                        <div class="dispatch-title">${dispatch.van}</div>
+                        <div class="equipment-status status-delivered">Completed</div>
+                    </div>
+                    <div class="dispatch-details">
+                        <div class="dispatch-detail">
+                            <div class="dispatch-detail-label">Date</div>
+                            <div>${dispatch.date}</div>
+                        </div>
+                        <div class="dispatch-detail">
+                            <div class="dispatch-detail-label">Items</div>
+                            <div>${dispatch.items} units</div>
+                        </div>
+                        <div class="dispatch-detail">
+                            <div class="dispatch-detail-label">Completed</div>
+                            <div>${dispatch.completionTime}</div>
+                        </div>
+                    </div>
+                `;
+
+                historyContainer.appendChild(card);
             });
         }
 
@@ -680,21 +1276,31 @@
         // Setup event listeners
         function setupEventListeners() {
             // Form submissions
-            document.getElementById('requestForm').addEventListener('submit', function(e) {
+            document.getElementById('requestForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 alert('Request submitted successfully!');
                 hideModal('requestModal');
             });
 
-            document.getElementById('dispatchForm').addEventListener('submit', function(e) {
+            document.getElementById('dispatchForm').addEventListener('submit', function (e) {
                 e.preventDefault();
                 alert('Dispatch confirmed!');
                 hideModal('dispatchModal');
             });
 
+            // Inventory filters
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', function () {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    const filter = this.getAttribute('data-filter');
+                    renderInventory(filter);
+                });
+            });
+
             // Close modals when clicking outside
             document.querySelectorAll('.modal-overlay').forEach(overlay => {
-                overlay.addEventListener('click', function(e) {
+                overlay.addEventListener('click', function (e) {
                     if (e.target === this) {
                         this.classList.add('hidden');
                     }
@@ -706,4 +1312,5 @@
         document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
+
 </html>
