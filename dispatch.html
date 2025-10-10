@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EquipTrack - Equipment Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #3b82f6;
+            --secondary: #64748b;
+            --accent: #f59e0b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text: #1e293b;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 100%;
+            padding: 16px;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 20px 16px;
+            margin-bottom: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 16px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .action-btn {
+            background: var(--card-bg);
+            border: none;
+            padding: 16px 8px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:active {
+            transform: scale(0.95);
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-btn i {
+            font-size: 20px;
+            color: var(--primary);
+        }
+
+        .action-btn:active i {
+            color: white;
+        }
+
+        /* Equipment List */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin: 24px 0 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .view-all {
+            font-size: 14px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .equipment-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .equipment-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .equipment-info {
+            flex: 1;
+        }
+
+        .equipment-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .equipment-details {
+            font-size: 13px;
+            color: var(--text-light);
+            display: flex;
+            gap: 12px;
+        }
+
+        .equipment-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .status-stock {
+            background: #dbeafe;
+            color: var(--primary);
+        }
+
+        .status-in-transit {
+            background: #fef3c7;
+            color: var(--warning);
+        }
+
+        .status-delivered {
+            background: #d1fae5;
+            color: var(--success);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 16px;
+            background: var(--card-bg);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 14px 20px;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:active {
+            background: var(--primary-light);
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        /* Bottom Navigation */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            border-top: 1px solid var(--border);
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--text-light);
+            text-decoration: none;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-item i {
+            font-size: 20px;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 400px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow);
+        }
+
+        .modal-header {
+            padding: 20px 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--text-light);
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        /* Utility Classes */
+        .hidden {
+            display: none;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-4 {
+            margin-top: 16px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 360px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1><i class="fas fa-tv"></i> EquipTrack</h1>
+            <p>TV Equipment Management</p>
+        </div>
+
+        <!-- Stats Overview -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value">24</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">8</div>
+                <div class="stat-label">In Transit</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Vans Active</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value">16</div>
+                <div class="stat-label">Delivered</div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+            <button class="action-btn" onclick="showModal('requestModal')">
+                <i class="fas fa-plus-circle"></i>
+                New Request
+            </button>
+            <button class="action-btn" onclick="showModal('dispatchModal')">
+                <i class="fas fa-truck"></i>
+                Dispatch
+            </button>
+            <button class="action-btn" onclick="showModal('scanModal')">
+                <i class="fas fa-qrcode"></i>
+                Scan Item
+            </button>
+        </div>
+
+        <!-- Active Requests -->
+        <div class="section-title">
+            <span>Active Requests</span>
+            <a href="#" class="view-all">View All</a>
+        </div>
+
+        <div class="equipment-list" id="requestsList">
+            <!-- Requests will be populated by JavaScript -->
+        </div>
+
+        <!-- Equipment in Transit -->
+        <div class="section-title">
+            <span>In Transit</span>
+            <a href="#" class="view-all">View All</a>
+        </div>
+
+        <div class="equipment-list" id="transitList">
+            <!-- Transit items will be populated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <div class="bottom-nav">
+        <a href="#" class="nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-list"></i>
+            <span>Inventory</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-truck"></i>
+            <span>Dispatch</span>
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-cog"></i>
+            <span>Settings</span>
+        </a>
+    </div>
+
+    <!-- New Request Modal -->
+    <div class="modal-overlay hidden" id="requestModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">New Equipment Request</h2>
+                <button class="modal-close" onclick="hideModal('requestModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="requestForm">
+                    <div class="form-group">
+                        <label class="form-label">Venue/Room</label>
+                        <input type="text" class="form-control" placeholder="e.g., Main Hall, Room 201" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">TV Size</label>
+                        <select class="form-control" required>
+                            <option value="">Select size</option>
+                            <option value="75">75 inch</option>
+                            <option value="55">55 inch</option>
+                            <option value="48">48 inch</option>
+                            <option value="32">32 inch</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Quantity</label>
+                        <input type="number" class="form-control" min="1" value="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Priority</label>
+                        <select class="form-control" required>
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                        Submit Request
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dispatch Modal -->
+    <div class="modal-overlay hidden" id="dispatchModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Dispatch Equipment</h2>
+                <button class="modal-close" onclick="hideModal('dispatchModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="dispatchForm">
+                    <div class="form-group">
+                        <label class="form-label">Select Van</label>
+                        <select class="form-control" required>
+                            <option value="">Choose van</option>
+                            <option value="van1">Van 1 (ABC-123)</option>
+                            <option value="van2">Van 2 (DEF-456)</option>
+                            <option value="van3">Van 3 (GHI-789)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Delivery Turns</label>
+                        <input type="number" class="form-control" min="1" max="10" value="1" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Items to Dispatch</label>
+                        <div style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius: var(--radius); padding: 12px;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border);">
+                                <span>75" TV - Main Hall</span>
+                                <input type="checkbox">
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border);">
+                                <span>55" TV - Room 201</span>
+                                <input type="checkbox">
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 0;">
+                                <span>48" TV - Conference Room</span>
+                                <input type="checkbox">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-truck-loading"></i>
+                        Confirm Dispatch
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scan Modal -->
+    <div class="modal-overlay hidden" id="scanModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Scan Equipment</h2>
+                <button class="modal-close" onclick="hideModal('scanModal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; padding: 40px 20px;">
+                    <i class="fas fa-qrcode" style="font-size: 64px; color: var(--primary); margin-bottom: 20px;"></i>
+                    <p style="color: var(--text-light); margin-bottom: 20px;">Point your camera at the equipment QR code</p>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-camera"></i>
+                        Start Camera
+                    </button>
+                </div>
+                
+                <div class="form-group mt-4">
+                    <label class="form-label">Or Enter Serial Number</label>
+                    <input type="text" class="form-control" placeholder="Enter serial number">
+                </div>
+                
+                <button class="btn btn-primary">
+                    <i class="fas fa-check"></i>
+                    Confirm Scan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const requests = [
+            { id: 1, venue: "Main Hall", size: "75 inch", quantity: 2, priority: "high", status: "pending" },
+            { id: 2, venue: "Room 201", size: "55 inch", quantity: 1, priority: "medium", status: "approved" },
+            { id: 3, venue: "Conference Room", size: "48 inch", quantity: 3, priority: "low", status: "pending" }
+        ];
+
+        const transitItems = [
+            { id: 1, venue: "Main Hall", size: "75 inch", van: "Van 1", turns: 2, status: "in-transit" },
+            { id: 2, venue: "Room 305", size: "32 inch", van: "Van 2", turns: 1, status: "in-transit" }
+        ];
+
+        // Initialize the app
+        function initApp() {
+            renderRequests();
+            renderTransitItems();
+            setupEventListeners();
+        }
+
+        // Render requests list
+        function renderRequests() {
+            const container = document.getElementById('requestsList');
+            container.innerHTML = '';
+
+            requests.forEach(request => {
+                const card = document.createElement('div');
+                card.className = 'equipment-card';
+                
+                let statusClass = 'status-stock';
+                let statusText = 'Pending';
+                
+                if (request.status === 'approved') {
+                    statusClass = 'status-in-transit';
+                    statusText = 'Approved';
+                }
+
+                card.innerHTML = `
+                    <div class="equipment-info">
+                        <div class="equipment-name">${request.size} TV</div>
+                        <div class="equipment-details">
+                            <span>${request.venue}</span>
+                            <span>Qty: ${request.quantity}</span>
+                        </div>
+                    </div>
+                    <div class="equipment-status ${statusClass}">${statusText}</div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Render transit items
+        function renderTransitItems() {
+            const container = document.getElementById('transitList');
+            container.innerHTML = '';
+
+            transitItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'equipment-card';
+                
+                card.innerHTML = `
+                    <div class="equipment-info">
+                        <div class="equipment-name">${item.size} TV</div>
+                        <div class="equipment-details">
+                            <span>${item.venue}</span>
+                            <span>${item.van}</span>
+                            <span>Turns: ${item.turns}</span>
+                        </div>
+                    </div>
+                    <div class="equipment-status status-in-transit">In Transit</div>
+                `;
+                
+                container.appendChild(card);
+            });
+        }
+
+        // Modal functions
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Form submissions
+            document.getElementById('requestForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Request submitted successfully!');
+                hideModal('requestModal');
+            });
+
+            document.getElementById('dispatchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Dispatch confirmed!');
+                hideModal('dispatchModal');
+            });
+
+            // Close modals when clicking outside
+            document.querySelectorAll('.modal-overlay').forEach(overlay => {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.add('hidden');
+                    }
+                });
+            });
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
